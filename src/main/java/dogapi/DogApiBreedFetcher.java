@@ -19,16 +19,18 @@ public class DogApiBreedFetcher implements BreedFetcher {
 
     /**
      * Fetch the list of sub breeds for the given breed from the dog.ceo API.
+     *
      * @param breed the breed to fetch sub breeds for
      * @return list of sub breeds for the given breed
      * @throws BreedNotFoundException if the breed does not exist (or if the API call fails for any reason)
      */
     @Override
-    public List<String> getSubBreeds(String breed) {
+    public List<String> getSubBreeds(String breed) throws BreedNotFoundException {
         // Defensive checks + normalization as the API expects lower-case breed names.
         if (breed == null) {
             throw new BreedNotFoundException("Breed cannot be null.");
         }
+
         final String normalized = breed.trim().toLowerCase(Locale.ROOT);
         if (normalized.isEmpty()) {
             throw new BreedNotFoundException("Breed cannot be empty.");
@@ -61,6 +63,7 @@ public class DogApiBreedFetcher implements BreedFetcher {
                 subs.add(arr.getString(i));
             }
             return subs;
+
         } catch (IOException | org.json.JSONException e) {
             // Per assignment spec, surface all failures as BreedNotFoundException.
             throw new BreedNotFoundException(
@@ -68,5 +71,4 @@ public class DogApiBreedFetcher implements BreedFetcher {
             );
         }
     }
-
 }

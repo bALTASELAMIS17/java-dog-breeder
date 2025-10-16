@@ -9,16 +9,19 @@ public interface BreedFetcher {
 
     /**
      * Fetch the list of sub breeds for the given breed.
+     *
      * @param breed the breed to fetch sub breeds for
      * @return list of sub breeds for the given breed
      * @throws BreedNotFoundException if the breed does not exist
      */
-    List<String> getSubBreeds(String breed);
+    List<String> getSubBreeds(String breed) throws BreedNotFoundException;
 
-
-    // TODO Task 4: make this a checked exception and update any other code as needed.
-    // a class defined in an interface is public AND static
-    class BreedNotFoundException extends RuntimeException {
+    /**
+     * Exception thrown when a requested breed does not exist.
+     * This is now a checked exception (extends Exception rather than RuntimeException),
+     * so any method that can throw it must declare it in its method signature.
+     */
+    class BreedNotFoundException extends Exception {
         public BreedNotFoundException(String breed) {
             super("Breed not found: " + breed);
         }
